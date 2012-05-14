@@ -2,6 +2,11 @@ package Git::Status::Tackle::Component;
 use strict;
 use warnings;
 
+sub new {
+    my $class = shift;
+    return bless {}, $class;
+}
+
 sub name {
     my $self = shift;
     my $class = ref($self) || $self;

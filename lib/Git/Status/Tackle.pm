@@ -5,7 +5,7 @@ use Module::Pluggable (
     sub_name    => '_installed_plugins',
     search_path => ['Git::Status::Tackle'],
     except      => 'Git::Status::Tackle::Component',
-    require     => 1,
+    instantiate => 'new',
 );
 
 sub components {

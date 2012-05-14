@@ -14,6 +14,11 @@ sub name {
     return $class;
 }
 
+sub header {
+    my $self = shift;
+    return $self->name . ":\n";
+}
+
 my $branches;
 sub branches {
     unless ($branches) {

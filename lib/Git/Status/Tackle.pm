@@ -19,12 +19,12 @@ sub status {
 
     for my $plugin ($self->components) {
         my $results = $plugin->list;
-        next unless $results && @{ $results->{output} };
+        next unless $results && @$results;
 
         print "\n" if $block++ > 0;
 
-        print $plugin->name . ":\n";
-        print @{ $results->{output} };
+        print $plugin->header;
+        print @$results;
     }
 }
 

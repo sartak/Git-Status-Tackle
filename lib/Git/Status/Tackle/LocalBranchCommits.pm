@@ -36,9 +36,7 @@ sub list {
             if $diff;
     }
 
-    return {
-        output => \@output,
-    };
+    return \@output;
 }
 
 1;

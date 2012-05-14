@@ -4,9 +4,7 @@ use warnings;
 use parent 'Git::Status::Tackle::Component';
 
 sub list {
-    return {
-        output => [`git diff --color --stat`],
-    };
+    return [`git diff --color --stat`];
 }
 
 1;

@@ -38,10 +38,12 @@ sub list {
             if $diff;
     }
 
-    return {
-        component => "Feature branches (merging into $integration)",
-        output    => \@output,
-    };
+    return \@output;
+}
+
+sub header {
+    my $self = shift;
+    return $self->name . " (merging into " . $self->integration . "):\n";
 }
 
 1;

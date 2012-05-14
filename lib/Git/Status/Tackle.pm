@@ -5,12 +5,19 @@ use Module::Pluggable (
     sub_name    => '_installed_plugins',
     search_path => ['Git::Status::Tackle'],
     except      => 'Git::Status::Tackle::Component',
+    require     => 1,
 );
 
+sub components {
+    return sort __PACKAGE__->_installed_plugins;
+}
+
 sub status {
+    my $self = shift;
+
     my $block = 0;
 
-    for my $plugin (__PACKAGE__->_installed_plugins) {
+    for my $plugin ($self->components) {
         my $results = $plugin->list;
         next unless $results && @{ $results->{output} };
 

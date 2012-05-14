@@ -1,16 +1,11 @@
 package Git::Status::Tackle::UnmergedFeatureBranches;
 use strict;
 use warnings;
-
-my $branches;
-sub branches {
-    unless ($branches) {
-        $branches = [ map { s/\s+$//; $_ } split /\n/, `git branch -l --color` ];
-    }
-    return @$branches;
-}
+use parent 'Git::Status::Tackle::Component';
 
 sub list {
+    my $self = shift;
+
     chomp(my $integration = `git config awesome-status.integration`);
     if (!$integration) {
         warn "The feature branches status expects the integration branch to be configured. Please set the integration branch for this project like:\n    git config --add awesome-status.integration release-2.1.0\n";
@@ -23,7 +18,7 @@ sub list {
     }
 
     my @output;
-    for my $colored_name (branches) {
+    for my $colored_name ($self->branches) {
         my $plain_name = $colored_name;
         $plain_name =~ s/^[\s*]+//;
         # strip ansi colors, ew

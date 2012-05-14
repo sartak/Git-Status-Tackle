@@ -1,18 +1,13 @@
 package Git::Status::Tackle::LocalBranchCommits;
 use strict;
 use warnings;
-
-my $branches;
-sub branches {
-    unless ($branches) {
-        $branches = [ map { s/\s+$//; $_ } split /\n/, `git branch -l --color` ];
-    }
-    return @$branches;
-}
+use parent 'Git::Status::Tackle::Component';
 
 sub list {
+    my $self = shift;
+
     my @output;
-    for my $colored_name (branches) {
+    for my $colored_name ($self->branches) {
         my $plain_name = $colored_name;
         $plain_name =~ s/^[\s*]+//;
         # strip ansi colors, ew

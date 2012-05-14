@@ -15,17 +15,21 @@ sub components {
 sub status {
     my $self = shift;
 
+    my @output;
+
     my $block = 0;
 
     for my $plugin ($self->components) {
         my $results = $plugin->list;
         next unless $results && @$results;
 
-        print "\n" if $block++ > 0;
+        push @output, "\n" if $block++ > 0;
 
-        print $plugin->header;
-        print @$results;
+        push @output, $plugin->header;
+        push @output, @$results;
     }
+
+    return @output;
 }
 
 1;

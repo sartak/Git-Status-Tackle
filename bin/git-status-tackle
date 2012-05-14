@@ -1,0 +1,8 @@
+#!/usr/bin/env perl
+use strict;
+use warnings;
+use Git::Status::Tackle;
+
+my $tackle = Git::Status::Tackle->new;
+print $tackle->status;
+

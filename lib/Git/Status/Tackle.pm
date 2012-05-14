@@ -8,8 +8,15 @@ use Module::Pluggable (
     instantiate => 'new',
 );
 
+sub new {
+    my $class = shift;
+    return bless {}, $class;
+}
+
 sub components {
-    return sort __PACKAGE__->_installed_plugins;
+    my $self = shift;
+
+    return sort $self->_installed_plugins;
 }
 
 sub status {

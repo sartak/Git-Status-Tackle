@@ -1,20 +1,22 @@
 package Git::Status::Tackle;
 use strict;
 use warnings;
-use Module::Pluggable sub_name => '_installed_plugins', search_path => ['Git::Status::Tackle'];
+use Module::Pluggable (
+    sub_name    => '_installed_plugins',
+    search_path => ['Git::Status::Tackle'],
+    except      => 'Git::Status::Tackle::Component',
+);
 
 sub status {
-    my $printed_block = 0;
-    for my $component (@order) {
-        my $results = $code_for{$component}->();
+    my $block = 0;
+
+    for my $plugin (__PACKAGE__->_installed_plugins) {
+        my $results = $plugin->list;
         next unless $results && @{ $results->{output} };
 
-        $results->{component} ||= $component;
+        print "\n" if $block++ > 0;
 
-        print "\n" if $printed_block;
-        $printed_block++;
-
-        print "$results->{component}:\n";
+        print $plugin->name . ":\n";
         print @{ $results->{output} };
     }
 }

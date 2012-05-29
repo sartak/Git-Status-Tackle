@@ -6,15 +6,13 @@ use parent 'Git::Status::Tackle::Component';
 sub list {
     my $self = shift;
 
-    chomp(my $integration = `git config awesome-status.integration`);
+    chomp(my $integration = `git config status-tackle.integration`);
     if (!$integration) {
-        warn "The feature branches status expects the integration branch to be configured. Please set the integration branch for this project like:\n    git config --add awesome-status.integration release-2.1.0\n";
-        return;
+        die "The feature branches status expects the integration branch to be configured. Please set the integration branch for this project like:\n    git config --add status-tackle.integration release-2.1.0\n";
     }
 
     if (`git rev-parse $integration 2>&1` =~ /unknown revision/) {
-        warn "Your configured integration branch ($integration) does not exist. Please create it or change the integration branch for this project like:\n    git config --replace-all awesome-status.integration release-2.1.1\n";
-        return;
+        die "Your configured integration branch ($integration) does not exist. Please create it or change the integration branch for this project like:\n    git config --replace-all status-tackle.integration release-2.1.1\n";
     }
 
     my @output;

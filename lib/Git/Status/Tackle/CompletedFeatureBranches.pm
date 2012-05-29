@@ -50,7 +50,7 @@ sub list {
 
 sub header {
     my $self = shift;
-    return $self->name . " (merging into " . $self->destination . "):\n";
+    return $self->name . " (merged into " . $self->destination . "):\n";
 }
 
 1;

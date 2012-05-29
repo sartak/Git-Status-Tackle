@@ -3,10 +3,19 @@ use strict;
 use warnings;
 use parent 'Git::Status::Tackle::Component';
 
+sub integration {
+    my $self = shift;
+    if (!exists($self->{integration})) {
+        chomp($self->{integration} = `git config status-tackle.integration`);
+    }
+
+    return $self->{integration};
+}
+
 sub list {
     my $self = shift;
 
-    chomp(my $integration = `git config status-tackle.integration`);
+    my $integration = $self->integration;
     if (!$integration) {
         die "The feature branches status expects the integration branch to be configured. Please set the integration branch for this project like:\n    git config --add status-tackle.integration release-2.1.0\n";
     }

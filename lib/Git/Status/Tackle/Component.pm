@@ -19,12 +19,12 @@ sub header {
     return $self->name . ":\n";
 }
 
-my $branches;
 sub branches {
-    unless ($branches) {
-        $branches = [ map { s/\s+$//; $_ } split /\n/, `git branch -l --color` ];
+    my $self = shift;
+    unless ($self->{branches}) {
+        $self->{branches} = [ map { s/\s+$//; $_ } split /\n/, `git branch -l --color` ];
     }
-    return @$branches;
+    return @{ $self->{branches} };
 }
 
 1;

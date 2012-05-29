@@ -27,7 +27,13 @@ sub status {
     my $block = 0;
 
     for my $plugin ($self->components) {
-        my $results = $plugin->list;
+        my $results = eval { $plugin->list };
+
+        if (my $e = $@) {
+            warn $plugin->name . ': ' . $e;
+            next;
+        }
+
         next unless $results && @$results;
 
         push @output, "\n" if $block++ > 0;

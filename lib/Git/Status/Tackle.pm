@@ -1,4 +1,5 @@
 package Git::Status::Tackle;
+# ABSTRACT: a pluggable "git status"-replacement toolbox
 use strict;
 use warnings;
 use Module::Pluggable (

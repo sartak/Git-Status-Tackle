@@ -17,7 +17,7 @@ sub list {
 
     my $integration = $self->integration;
     if (!$integration) {
-        die "The feature branches status expects the integration branch to be configured. Please set the integration branch for this project like:\n    git config --add status-tackle.integration release-2.1.0\n";
+        die "The integration branch must be configured. Please set the integration branch for this project like:\n    git config --add status-tackle.integration release-2.1.0\n";
     }
 
     if (`git rev-parse $integration 2>&1` =~ /unknown revision/) {

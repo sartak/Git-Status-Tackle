@@ -1,4 +1,4 @@
-package Git::Status::Tackle::LocalBranchCommits;
+package Git::Status::Tackle::UnpushedBranches;
 use strict;
 use warnings;
 use parent 'Git::Status::Tackle::Component';

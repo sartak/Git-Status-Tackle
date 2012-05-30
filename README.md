@@ -24,3 +24,10 @@ IndexChanges:
 UnpushedBranches:
  master: +1
 </pre>
+
+You can also control exactly which status you want to see (and in which order) on a per-repository level:
+
+<pre>
+[status-tackle]
+    components = UntrackedFiles WorkingTreeChanges IndexChanges UnpushedBranches CompletedFeatureBranches UnmergedFeatureBranches
+</pre>

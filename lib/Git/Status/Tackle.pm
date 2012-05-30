@@ -6,7 +6,6 @@ use Module::Pluggable (
     sub_name    => '_installed_plugins',
     search_path => ['Git::Status::Tackle'],
     except      => 'Git::Status::Tackle::Component',
-    instantiate => 'new',
 );
 
 sub new {
@@ -14,10 +13,28 @@ sub new {
     return bless {}, $class;
 }
 
-sub components {
+sub all_components {
     my $self = shift;
 
     return sort $self->_installed_plugins;
+}
+
+sub components {
+    my $self = shift;
+
+    chomp(my $components = `git config status-tackle.components`);
+    return split ' ', $components if $components;
+    return $self->all_components;
+}
+
+sub _instantiate_component {
+    my $self = shift;
+    my $name = shift;
+
+    (my $file = "$name.pm") =~ s{::}{/}g;
+    require $file;
+
+    return $name->new;
 }
 
 sub status {
@@ -27,7 +44,9 @@ sub status {
 
     my $block = 0;
 
-    for my $plugin ($self->components) {
+    for my $plugin_class ($self->components) {
+        my $plugin = $self->_instantiate_component($plugin_class);
+
         my $results = eval { $plugin->list };
 
         if (my $e = $@) {

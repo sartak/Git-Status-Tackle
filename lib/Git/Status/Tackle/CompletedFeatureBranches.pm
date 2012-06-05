@@ -24,6 +24,8 @@ sub list {
         die "Your configured destination branch ($destination) does not exist. Please create it or change the destination branch for this project like:\n    git config --replace-all status-tackle.destination release-2.1.1\n";
     }
 
+    chomp(my $destination_sha = `git rev-parse $destination`);
+
     my @output;
     for my $colored_name ($self->branches) {
         my $plain_name = $colored_name;
@@ -34,7 +36,10 @@ sub list {
 
         next if $plain_name eq '(no branch)' || $plain_name eq $destination;
 
-        my $status = `git rev-list $destination..$plain_name 2>&1`;
+        chomp(my $current_sha = `git rev-parse $plain_name`);
+        next if $current_sha eq $destination_sha;
+
+        my $status = `git rev-list $destination_sha..$current_sha 2>&1`;
 
         my $diff;
         if (my $lines = $status =~ tr/\n/\n/) {

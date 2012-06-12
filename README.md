@@ -29,5 +29,5 @@ You can also control exactly which status you want to see (and in which order) o
 
 <pre>
 [status-tackle]
-    components = UntrackedFiles WorkingTreeChanges IndexChanges UnpushedBranches CompletedFeatureBranches UnmergedFeatureBranches
+    plugins = UntrackedFiles WorkingTreeChanges IndexChanges UnpushedBranches CompletedFeatureBranches UnmergedFeatureBranches
 </pre>

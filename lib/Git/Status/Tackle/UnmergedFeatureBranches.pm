@@ -1,7 +1,7 @@
 package Git::Status::Tackle::UnmergedFeatureBranches;
 use strict;
 use warnings;
-use parent 'Git::Status::Tackle::Component';
+use parent 'Git::Status::Tackle::Plugin';
 
 sub synopsis { "Lists branches not fully merged into the integration branch" }
 

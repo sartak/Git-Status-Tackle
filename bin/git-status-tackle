@@ -34,7 +34,7 @@ if ($version) {
 my $tackle = Git::Status::Tackle->new;
 
 if ($plugins) {
-    my @plugins = $tackle->all_components;
+    my @plugins = $tackle->all_plugins;
 
     for my $plugin_name (@plugins) {
         my $plugin = $tackle->load_plugin($plugin_name);

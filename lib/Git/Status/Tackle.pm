@@ -5,7 +5,7 @@ use warnings;
 use Module::Pluggable (
     sub_name    => '_installed_plugins',
     search_path => ['Git::Status::Tackle'],
-    except      => 'Git::Status::Tackle::Component',
+    except      => 'Git::Status::Tackle::Plugin',
 );
 
 our $VERSION = '0.01';
@@ -15,21 +15,21 @@ sub new {
     return bless {}, $class;
 }
 
-sub all_components {
+sub all_plugins {
     my $self = shift;
 
     return sort $self->_installed_plugins;
 }
 
-sub components {
+sub plugins {
     my $self = shift;
 
-    chomp(my $components = `git config status-tackle.components`);
-    return split ' ', $components if $components;
-    return $self->all_components;
+    chomp(my $plugins = `git config status-tackle.plugins`);
+    return split ' ', $plugins if $plugins;
+    return $self->all_plugins;
 }
 
-sub _instantiate_component {
+sub _instantiate_plugin {
     my $self = shift;
     my $name = shift;
 
@@ -43,12 +43,12 @@ sub load_plugin {
     my $self = shift;
     my $plugin_class = shift;
 
-    my $plugin = eval { $self->_instantiate_component($plugin_class) };
+    my $plugin = eval { $self->_instantiate_plugin($plugin_class) };
     return $plugin if $plugin;
 
     my $error = $@;
 
-    $plugin ||= eval { $self->_instantiate_component("Git::Status::Tackle::$plugin_class") };
+    $plugin ||= eval { $self->_instantiate_plugin("Git::Status::Tackle::$plugin_class") };
     return $plugin if $plugin;
 
     # errors more specific than 404 should dominate
@@ -64,7 +64,7 @@ sub status {
 
     my $block = 0;
 
-    for my $plugin_class ($self->components) {
+    for my $plugin_class ($self->plugins) {
         my $plugin = $self->load_plugin($plugin_class);
 
         my $results = eval { $plugin->list };

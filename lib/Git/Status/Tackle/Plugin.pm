@@ -1,4 +1,4 @@
-package Git::Status::Tackle::Component;
+package Git::Status::Tackle::Plugin;
 use strict;
 use warnings;
 

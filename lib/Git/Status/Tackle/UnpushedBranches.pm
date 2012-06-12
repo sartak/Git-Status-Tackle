@@ -1,7 +1,7 @@
 package Git::Status::Tackle::UnpushedBranches;
 use strict;
 use warnings;
-use parent 'Git::Status::Tackle::Component';
+use parent 'Git::Status::Tackle::Plugin';
 
 sub synopsis { "Lists branches not fully merged into their upstream branch" }
 

@@ -1,7 +1,7 @@
 package Git::Status::Tackle::UntrackedFiles;
 use strict;
 use warnings;
-use parent 'Git::Status::Tackle::Component';
+use parent 'Git::Status::Tackle::Plugin';
 
 sub synopsis { "Lists files not tracked or ignored by git" }
 

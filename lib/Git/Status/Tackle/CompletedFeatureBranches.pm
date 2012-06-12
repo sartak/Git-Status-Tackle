@@ -3,6 +3,8 @@ use strict;
 use warnings;
 use parent 'Git::Status::Tackle::Component';
 
+sub synopsis { "Lists branches fully merged into destination branch" }
+
 sub destination {
     my $self = shift;
     if (!exists($self->{destination})) {

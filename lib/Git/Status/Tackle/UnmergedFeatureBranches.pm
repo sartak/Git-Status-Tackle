@@ -3,6 +3,8 @@ use strict;
 use warnings;
 use parent 'Git::Status::Tackle::Component';
 
+sub synopsis { "Lists branches not fully merged into the integration branch" }
+
 sub integration {
     my $self = shift;
     if (!exists($self->{integration})) {

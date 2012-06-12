@@ -1,8 +1,48 @@
 #!/usr/bin/env perl
 use strict;
 use warnings;
+use Getopt::Long;
 use Git::Status::Tackle;
+use File::Basename 'basename';
+
+GetOptions(
+    "version" => \(my $version),
+    "help"    => \(my $help),
+    "plugins" => \(my $plugins),
+);
+
+sub version {
+    my $name = basename($0);
+    return "$name version $Git::Status::Tackle::VERSION";
+}
+
+if ($help) {
+    my $version = version();
+    my $name = basename($0);
+
+    die << "HELP";
+$version
+
+usage: $name [--version] [--plugins]
+HELP
+}
+
+if ($version) {
+    die version() . "\n";
+}
 
 my $tackle = Git::Status::Tackle->new;
+
+if ($plugins) {
+    my @plugins = $tackle->all_components;
+
+    for my $plugin_name (@plugins) {
+        my $plugin = $tackle->load_plugin($plugin_name);
+        print "$plugin_name: " . $plugin->synopsis . "\n";
+    }
+
+    exit 0;
+}
+
 print $tackle->status;
 

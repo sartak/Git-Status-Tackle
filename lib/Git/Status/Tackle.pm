@@ -8,6 +8,8 @@ use Module::Pluggable (
     except      => 'Git::Status::Tackle::Component',
 );
 
+our $VERSION = '0.01';
+
 sub new {
     my $class = shift;
     return bless {}, $class;

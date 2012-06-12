@@ -37,7 +37,7 @@ sub _instantiate_component {
     return $name->new;
 }
 
-sub _load_plugin {
+sub load_plugin {
     my $self = shift;
     my $plugin_class = shift;
 
@@ -63,7 +63,7 @@ sub status {
     my $block = 0;
 
     for my $plugin_class ($self->components) {
-        my $plugin = $self->_load_plugin($plugin_class);
+        my $plugin = $self->load_plugin($plugin_class);
 
         my $results = eval { $plugin->list };
 

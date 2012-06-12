@@ -37,6 +37,24 @@ sub _instantiate_component {
     return $name->new;
 }
 
+sub _load_plugin {
+    my $self = shift;
+    my $plugin_class = shift;
+
+    my $plugin = eval { $self->_instantiate_component($plugin_class) };
+    return $plugin if $plugin;
+
+    my $error = $@;
+
+    $plugin ||= eval { $self->_instantiate_component("Git::Status::Tackle::$plugin_class") };
+    return $plugin if $plugin;
+
+    # errors more specific than 404 should dominate
+    $error = $@ if $@ !~ /^Can't locate/;
+
+    die "Unable to load plugin $plugin_class: $error";
+}
+
 sub status {
     my $self = shift;
 
@@ -45,7 +63,7 @@ sub status {
     my $block = 0;
 
     for my $plugin_class ($self->components) {
-        my $plugin = $self->_instantiate_component($plugin_class);
+        my $plugin = $self->_load_plugin($plugin_class);
 
         my $results = eval { $plugin->list };
 
